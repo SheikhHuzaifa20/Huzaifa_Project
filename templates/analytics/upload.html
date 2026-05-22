@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}Upload Educational Data | EduPredict{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center animate-fade-in pt-4">
+    <div class="col-md-8">
+        <div class="glass-card p-4 p-md-5">
+            <div class="d-flex align-items-center mb-4">
+                <div class="stat-icon bg-primary bg-opacity-10 text-primary me-3">
+                    <i class="fas fa-upload"></i>
+                </div>
+                <h3 class="fw-bold mb-0">Data Ingestion</h3>
+            </div>
+            
+            <p class="text-secondary mb-4">
+                Upload your educational datasets (CSV/Excel) to be stored in the simulated HDFS architecture 
+                and used for Machine Learning model training.
+            </p>
+
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="form-label fw-medium">Dataset Title</label>
+                    <input type="text" name="title" class="form-control" placeholder="e.g., 2024 Computer Science Performance" required>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="form-label fw-medium">Select File (CSV/Excel)</label>
+                    <input type="file" name="dataset" class="form-control" required>
+                    <div class="form-text mt-2">
+                        <i class="fas fa-info-circle me-1"></i> 
+                        The file will be automatically partitioned by date in <code>hdfs_simulation/data/</code>
+                    </div>
+                </div>
+
+                <div class="glass-card p-3 mb-4 bg-light border-0">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" name="train_model" id="trainModelSwitch" checked>
+                        <label class="form-check-label fw-bold" for="trainModelSwitch">
+                            Automatically Train ML Model
+                        </label>
+                    </div>
+                    <p class="text-secondary small mb-0 ms-4 mt-1">
+                        Checking this will trigger the Scikit-learn Random Forest training pipeline immediately after upload.
+                    </p>
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary btn-lg shadow">
+                        <i class="fas fa-cloud-upload-alt me-2"></i>Process and Ingest Data
+                    </button>
+                </div>
+            </form>
+        </div>
+        
+        <div class="mt-4 glass-card p-4">
+            <h6 class="fw-bold"><i class="fas fa-lightbulb text-warning me-2"></i>Ingestion Tips</h6>
+            <ul class="text-secondary small mb-0">
+                <li>Ensure CSV columns include: <code>attendance_rate</code>, <code>mid_grade</code>, <code>assignment_score</code>, <code>performance_score</code>.</li>
+                <li>Missing data is handled using Pandas' mean imputation logic.</li>
+                <li>Large datasets are processed in chunks to ensure memory efficiency.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

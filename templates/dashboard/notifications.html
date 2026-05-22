@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Notifications | EduPredict{% endblock %}
+
+{% block content %}
+<div class="animate-fade-in pt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="glass-card p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3 class="fw-bold mb-0">Notifications</h3>
+                    <button class="btn btn-sm btn-outline-secondary">Mark all as read</button>
+                </div>
+
+                <div class="list-group list-group-flush">
+                    <div class="list-group-item bg-transparent border-0 mb-3 p-3 glass-card bg-danger bg-opacity-10 border-start border-4 border-danger">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1 fw-bold text-danger">Low Attendance Warning</h5>
+                            <small class="text-secondary">3 mins ago</small>
+                        </div>
+                        <p class="mb-1 text-secondary">Student S2024_1 has missed 3 consecutive classes in Algorithms.</p>
+                    </div>
+
+                    <div class="list-group-item bg-transparent border-0 mb-3 p-3 glass-card bg-primary bg-opacity-10 border-start border-4 border-primary">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1 fw-bold text-primary">New Dataset Uploaded</h5>
+                            <small class="text-secondary">2 hours ago</small>
+                        </div>
+                        <p class="mb-1 text-secondary">Analyst User uploaded "Final Semester Results 2024".</p>
+                    </div>
+
+                    <div class="list-group-item bg-transparent border-0 mb-3 p-3 glass-card bg-success bg-opacity-10 border-start border-4 border-success">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1 fw-bold text-success">Model Retraining Complete</h5>
+                            <small class="text-secondary">Yesterday</small>
+                        </div>
+                        <p class="mb-1 text-secondary">The performance prediction model has been updated with 94.2% accuracy.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

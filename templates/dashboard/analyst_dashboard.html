@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block title %}Analyst Insights | EduPredict{% endblock %}
+
+{% block content %}
+<div class="animate-fade-in">
+    <h2 class="fw-bold mb-4">Big Data Insights (Analyst)</h2>
+
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="glass-card p-4">
+                <h6 class="text-secondary small fw-bold text-uppercase mb-3">Model Accuracy</h6>
+                <div class="d-flex align-items-end gap-2">
+                    <h2 class="fw-bold mb-0 text-primary">{{ model_info.accuracy }}</h2>
+                    <span class="text-success small mb-1"><i class="fas fa-caret-up"></i> 1.2%</span>
+                </div>
+                <p class="small text-secondary mt-2 mb-0">Algorithm: {{ model_info.name }}</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="glass-card p-4">
+                <h6 class="text-secondary small fw-bold text-uppercase mb-3">HDFS Data Nodes</h6>
+                <div class="d-flex align-items-center gap-3">
+                    <h2 class="fw-bold mb-0 text-success">{{ big_data_stats.hdfs_nodes }}</h2>
+                    <div class="flex-grow-1">
+                        <div class="progress" style="height: 6px;">
+                            <div class="progress-bar bg-success" style="width: 75%"></div>
+                        </div>
+                    </div>
+                </div>
+                <p class="small text-secondary mt-2 mb-0">Total Processed: {{ big_data_stats.records_processed }} records</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="glass-card p-4">
+                <h6 class="text-secondary small fw-bold text-uppercase mb-3">Anomalies Detected</h6>
+                <h2 class="fw-bold mb-0 text-danger">42</h2>
+                <p class="small text-secondary mt-2 mb-0">Last scan: 10 minutes ago</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-12">
+            <div class="glass-card p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5 class="fw-bold mb-0">Global Correlation Analysis</h5>
+                    <div class="btn-group btn-group-sm">
+                        <button class="btn btn-outline-secondary active">Attendance</button>
+                        <button class="btn btn-outline-secondary">Grades</button>
+                        <button class="btn btn-outline-secondary">Engagement</button>
+                    </div>
+                </div>
+                <canvas id="correlationChart" height="100"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    const ctx = document.getElementById('correlationChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['CS', 'Math', 'Physics', 'Bio', 'Arts', 'Commerce'],
+            datasets: [
+                {
+                    label: 'High Performance',
+                    data: [85, 78, 92, 88, 70, 75],
+                    backgroundColor: '#4f46e5'
+                },
+                {
+                    label: 'Dropout Risk',
+                    data: [5, 12, 4, 8, 20, 15],
+                    backgroundColor: '#f87171'
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+</script>
+{% endblock %}

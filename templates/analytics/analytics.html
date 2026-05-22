@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}Big Data Analytics | EduPredict{% endblock %}
+
+{% block content %}
+<div class="animate-fade-in">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold mb-0">Predictive Analytics</h2>
+        <a href="{% url 'upload_data' %}" class="btn btn-primary shadow">
+            <i class="fas fa-plus me-2"></i>New Dataset
+        </a>
+    </div>
+
+    <!-- ML Model Status -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="glass-card p-4">
+                <div class="d-flex align-items-center">
+                    <div class="stat-icon {% if model_trained %}bg-success{% else %}bg-warning{% endif %} bg-opacity-10 {% if model_trained %}text-success{% else %}text-warning{% endif %} me-3">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div>
+                        <h5 class="fw-bold mb-1">Model Status: {% if model_trained %}Trained & Active{% else %}Not Trained{% endif %}</h5>
+                        <p class="text-secondary mb-0">
+                            {% if model_trained %}
+                                Your Random Forest model is ready for predictions.
+                            {% else %}
+                                Please upload a CSV dataset to train the performance prediction model.
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HDFS Simulation View -->
+    <div class="glass-card p-4">
+        <h5 class="fw-bold mb-4"><i class="fas fa-server text-primary me-2"></i>Simulated HDFS Storage Architecture</h5>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>File Name</th>
+                        <th>Partition Path (Simulated HDFS)</th>
+                        <th>Size</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for file in hdfs_files %}
+                    <tr>
+                        <td class="fw-medium text-dark"><i class="far fa-file-alt me-2 text-secondary"></i>{{ file.name }}</td>
+                        <td class="text-secondary small"><code>/hdfs/data/{{ file.path }}</code></td>
+                        <td>{{ file.size|filesizeformat }}</td>
+                        <td>
+                            <a href="{% url 'analyze_dataset' %}?file={{ file.path }}" class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-play me-1"></i>Analyze
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center py-4 text-secondary">No files in HDFS simulation.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

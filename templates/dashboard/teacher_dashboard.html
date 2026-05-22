@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block title %}Teacher Dashboard | EduPredict{% endblock %}
+
+{% block content %}
+<div class="animate-fade-in">
+    <h2 class="fw-bold mb-4">Academic Insights (Teacher)</h2>
+
+    <div class="row g-4 mb-5">
+        <div class="col-md-6 col-lg-3">
+            <div class="glass-card p-4 h-100 border-start border-4 border-primary">
+                <p class="text-secondary small mb-1">Students Under Care</p>
+                <h3 class="fw-bold mb-0">{{ students.count }}</h3>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="glass-card p-4 h-100 border-start border-4 border-danger">
+                <p class="text-secondary small mb-1">Low Attendance Alerts</p>
+                <h3 class="fw-bold mb-0">{{ low_attendance }}</h3>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="glass-card p-4 h-100 border-start border-4 border-warning">
+                <p class="text-secondary small mb-1">Predicted Dropout Risk</p>
+                <h3 class="fw-bold mb-0">12</h3>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="glass-card p-4 h-100 border-start border-4 border-success">
+                <p class="text-secondary small mb-1">Avg. Class Performance</p>
+                <h3 class="fw-bold mb-0">78%</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-7">
+            <div class="glass-card p-4 h-100">
+                <h5 class="fw-bold mb-4">Student Performance Trends</h5>
+                <canvas id="performanceChart"></canvas>
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <div class="glass-card p-4 h-100">
+                <h5 class="fw-bold mb-4">Quick Student Search</h5>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Search by name or ID...">
+                    <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+                </div>
+                <ul class="list-group list-group-flush mt-3">
+                    {% for student in students|slice:":5" %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent px-0">
+                        <div>
+                            <p class="mb-0 fw-medium">{{ student.user.get_full_name }}</p>
+                            <span class="text-secondary small">{{ student.student_id }}</span>
+                        </div>
+                        <span class="badge bg-primary rounded-pill">View</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    const ctx = document.getElementById('performanceChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6'],
+            datasets: [{
+                label: 'Avg Grade',
+                data: [65, 72, 68, 75, 82, 78],
+                borderColor: '#4f46e5',
+                tension: 0.4,
+                fill: true,
+                backgroundColor: 'rgba(79, 70, 229, 0.1)'
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: { beginAtZero: true, max: 100 }
+            }
+        }
+    });
+</script>
+{% endblock %}

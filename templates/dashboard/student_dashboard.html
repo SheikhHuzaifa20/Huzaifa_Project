@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block title %}My Dashboard | EduPredict{% endblock %}
+
+{% block content %}
+<div class="animate-fade-in">
+    <div class="d-flex align-items-center mb-4">
+        <img src="https://ui-avatars.com/api/?name={{ user.get_full_name }}&background=4f46e5&color=fff" class="rounded-circle me-3" width="64">
+        <div>
+            <h2 class="fw-bold mb-1">Hello, {{ user.first_name }}!</h2>
+            <p class="text-secondary mb-0">Student ID: {{ profile.student_id }} | {{ profile.department }}</p>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <!-- AI Prediction Card -->
+        <div class="col-lg-4">
+            <div class="glass-card p-4 h-100 bg-primary text-white border-0 shadow">
+                <h5 class="fw-bold mb-3"><i class="fas fa-magic me-2"></i>AI Prediction</h5>
+                {% if prediction %}
+                    <p class="mb-1 opacity-75">Predicted Performance:</p>
+                    <h2 class="fw-bold mb-3">{{ prediction.prediction }}</h2>
+                    <div class="progress bg-white bg-opacity-20 mb-2" style="height: 10px;">
+                        <div class="progress-bar bg-white" role="progressbar" style="width: {{ prediction.confidence }}%"></div>
+                    </div>
+                    <p class="small mb-0 opacity-75">Confidence Score: {{ prediction.confidence }}%</p>
+                {% else %}
+                    <p class="mb-0">Training the prediction engine. Check back soon!</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="col-lg-8">
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="glass-card p-4 h-100">
+                        <p class="text-secondary small mb-1">Attendance Rate</p>
+                        <h3 class="fw-bold text-primary">{{ attendance_rate }}%</h3>
+                        <div class="progress mt-2" style="height: 6px;">
+                            <div class="progress-bar" style="width: {{ attendance_rate }}%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="glass-card p-4 h-100">
+                        <p class="text-secondary small mb-1">GPA (Current Semester)</p>
+                        <h3 class="fw-bold text-success">3.8</h3>
+                        <p class="small text-secondary mb-0">+0.2 from last term</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-12">
+            <div class="glass-card p-4">
+                <h5 class="fw-bold mb-4">Academic Records</h5>
+                <div class="table-responsive">
+                    <table class="table align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Course</th>
+                                <th>Semester</th>
+                                <th>Grade/Marks</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for record in records %}
+                            <tr>
+                                <td class="fw-medium">{{ record.course_name }}</td>
+                                <td>Semester {{ record.semester }}</td>
+                                <td>{{ record.grade }}</td>
+                                <td><span class="badge bg-success bg-opacity-10 text-success px-3">Passed</span></td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center py-4 text-secondary">No records found.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

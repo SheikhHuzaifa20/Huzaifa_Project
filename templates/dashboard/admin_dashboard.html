@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard | EduPredict{% endblock %}
+
+{% block content %}
+<div class="animate-fade-in">
+    <h2 class="fw-bold mb-4">System Overview (Admin)</h2>
+
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="glass-card stat-card bg-primary text-white border-0">
+                <div>
+                    <p class="mb-1 opacity-75">Total Students</p>
+                    <h2 class="fw-bold mb-0">{{ total_students }}</h2>
+                </div>
+                <div class="stat-icon bg-white bg-opacity-20">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="glass-card stat-card bg-success text-white border-0">
+                <div>
+                    <p class="mb-1 opacity-75">Total Users</p>
+                    <h2 class="fw-bold mb-0">{{ total_users }}</h2>
+                </div>
+                <div class="stat-icon bg-white bg-opacity-20">
+                    <i class="fas fa-users"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="glass-card stat-card bg-info text-white border-0">
+                <div>
+                    <p class="mb-1 opacity-75">Active Models</p>
+                    <h2 class="fw-bold mb-0">2</h2>
+                </div>
+                <div class="stat-icon bg-white bg-opacity-20">
+                    <i class="fas fa-brain"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="glass-card p-4 h-100">
+                <h5 class="fw-bold mb-4">Recent Dataset Uploads</h5>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Uploaded By</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for ds in recent_datasets %}
+                            <tr>
+                                <td class="fw-medium">{{ ds.title }}</td>
+                                <td>{{ ds.uploaded_by.username }}</td>
+                                <td class="text-secondary small">{{ ds.uploaded_at|date:"M d, Y" }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="3" class="text-center text-secondary">No recent uploads.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="glass-card p-4 h-100">
+                <h5 class="fw-bold mb-4">System Health</h5>
+                <canvas id="healthChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    const ctx = document.getElementById('healthChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Uptime', 'Storage', 'Models'],
+            datasets: [{
+                data: [99.9, 45, 100],
+                backgroundColor: ['#4f46e5', '#10b981', '#f59e0b'],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            plugins: {
+                legend: { position: 'bottom' }
+            }
+        }
+    });
+</script>
+{% endblock %}

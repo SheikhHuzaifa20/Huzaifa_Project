@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block title %}Add New Student | EduPredict{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center animate-fade-in pt-4">
+    <div class="col-md-8">
+        <div class="glass-card p-4 p-md-5">
+            <div class="d-flex align-items-center mb-4">
+                <div class="stat-icon bg-primary bg-opacity-10 text-primary me-3">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <h3 class="fw-bold mb-0">Add Student</h3>
+            </div>
+            
+            <form method="post">
+                {% csrf_token %}
+                <h5 class="fw-bold text-secondary mb-3 small text-uppercase">Account Information</h5>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label">Username</label>
+                        <input type="text" name="username" class="form-control" placeholder="e.g. jdoe2024" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Email</label>
+                        <input type="email" name="email" class="form-control" placeholder="e.g. john@example.com" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">First Name</label>
+                        <input type="text" name="first_name" class="form-control" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Last Name</label>
+                        <input type="text" name="last_name" class="form-control" required>
+                    </div>
+                </div>
+
+                <h5 class="fw-bold text-secondary mb-3 small text-uppercase">Academic Details</h5>
+                {% bootstrap_form form %}
+                
+                <div class="d-grid gap-2 mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg shadow">Create Student Record</button>
+                    <a href="{% url 'student_list' %}" class="btn btn-light">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
